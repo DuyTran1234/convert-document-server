@@ -7,38 +7,30 @@ const cors = require('cors');
 app.use(cors());
 app.use(express.json());
 
-// config PDFTron
-const { PDFNet } = require('@pdftron/pdfnet-node');
-
 // config multer
 const multer = require('multer');
 const storage = require('./config/configStorage');
 const useToolsConvert = require('./services/useToolsConvert');
 const upload = multer({ storage: storage });
-
 const path = require('path');
-
-const staticPath = path.join(process.cwd(), "converted");
-app.use('/converted', express.static(staticPath));
-
-const uploadsFolder = path.resolve(process.cwd(), "uploads");
 const convertedFolder = path.resolve(process.cwd(), "converted");
 
 app.post('/convert-file', upload.single('fileUpload'), async (req, res, next) => {
     const file = req.file;
-    const {tool} = req.body;
+    const {tool, resizeImageJson} = req.body;
+    const resizeImage = JSON.parse(resizeImageJson);
+    console.log(req.body);
     if (!file) {
         const error = new Error('Please upload a file');
-        error.httpStatusCode = 400;
         return next(error);
     }
     const pathFile = path.resolve(__dirname, file.path);
     try {
-        const convert = await useToolsConvert(pathFile, tool);
+        const convert = await useToolsConvert(pathFile, tool, resizeImage);
         res.send(convert);
     }
     catch(error) {
-        console.log(error);
+        return next(error);
     }
 })
 

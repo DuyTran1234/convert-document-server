@@ -1,26 +1,30 @@
 const convertDocument = require("./convertDocument");
 const path = require('path');
+const { convertImage } = require("./convertImage");
 
-const useToolsConvert = async (pathFile, tool) => {
-    const parsed = parseInt(tool);
+const useToolsConvert = async (pathFile, tool, resizeImage = undefined) => {
+    const parsedTool = parseInt(tool);
     const resource = path.extname(pathFile).slice(1);
-    if(parsed === 0 || parsed === 1 || parsed === 2 || parsed === 6) {
+    if(parsedTool === 0 || parsedTool === 1 || parsedTool === 2 || parsedTool === 6) {
         const result = await convertDocument(pathFile, resource, "pdf");
         return result;
     }
-    else if(parsed === 3) {
+    else if(parsedTool === 3) {
         const result = await convertDocument(pathFile, resource, "docx");
         return result;
     }
-    else if(parsed === 4) {
+    else if(parsedTool === 4) {
         const result = await convertDocument(pathFile, resource, "xlsx");
         return result;
     }
-    else if(parsed === 5) {
+    else if(parsedTool === 5) {
         const result = await convertDocument(pathFile, resource, "pptx");
         return result;
     }
-    
+    else if(parsedTool === 7) {
+        const result = await convertImage(pathFile, resizeImage, "png");
+        return result;
+    }
     
     else {
         return new Error('Error select tool');
