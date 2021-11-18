@@ -25,9 +25,9 @@ const convertImage = async (inputFilePath, resizeImage, target) => {
         console.log("Resizing done, file not saved");
     });
     const convert = await inStream.pipe(transform).pipe(outStream);
-    // const deleteFileUpload = await fs.unlink(`${pathFile}`, (error) => {
-    //     console.log(error);
-    // });
+    const deleteFileUpload = await fs.unlink(`${pathFile}`, (error) => {
+        console.log(error);
+    });
     return outputFileName;
 }
 
