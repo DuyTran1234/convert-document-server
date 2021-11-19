@@ -11,7 +11,7 @@ app.use(express.json());
 const multer = require('multer');
 const storage = require('./config/configStorage');
 const useToolsConvert = require('./services/useToolsConvert');
-const upload = multer({ storage: storage, limits: {fileSize: 3 * 1024 * 1024}});
+const upload = multer({ storage: storage, limits: {fileSize: 100 * 1024 * 1024}});
 const path = require('path');
 const convertedFolder = path.resolve(process.cwd(), "converted");
 

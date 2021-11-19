@@ -1,6 +1,7 @@
 const convertDocument = require("./convertDocument");
 const path = require('path');
 const { convertImage } = require("./convertImage");
+const convertAudio = require("./convertAudio");
 
 const useToolsConvert = async (pathFile, tool, resizeImage = undefined) => {
     const parsedTool = parseInt(tool);
@@ -25,7 +26,10 @@ const useToolsConvert = async (pathFile, tool, resizeImage = undefined) => {
         const result = await convertImage(pathFile, resizeImage, "png");
         return result;
     }
-    
+    else if(parsedTool === 8) {
+        const result = await convertAudio(pathFile, "mp3");
+        return result;
+    }
     else {
         return new Error('Error select tool');
     }
