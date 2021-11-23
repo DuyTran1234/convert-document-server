@@ -17,8 +17,7 @@ const convertedFolder = path.resolve(process.cwd(), "converted");
 
 app.post('/convert-file', upload.single('fileUpload'), async (req, res, next) => {
     const file = req.file;
-    const {tool, resizeImageJson} = req.body;
-    const resizeImage = JSON.parse(resizeImageJson);
+    const {tool} = req.body;
     console.log(req.body);
     if (!file) {
         const error = new Error('Please upload a file');
@@ -26,7 +25,7 @@ app.post('/convert-file', upload.single('fileUpload'), async (req, res, next) =>
     }
     const pathFile = path.resolve(__dirname, file.path);
     try {
-        const convert = await useToolsConvert(pathFile, tool, resizeImage);
+        const convert = await useToolsConvert(pathFile, tool);
         res.send(convert);
     }
     catch(error) {

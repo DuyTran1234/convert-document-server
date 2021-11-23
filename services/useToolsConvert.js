@@ -3,7 +3,7 @@ const path = require('path');
 const { convertImage } = require("./convertImage");
 const convertAudio = require("./convertAudio");
 
-const useToolsConvert = async (pathFile, tool, resizeImage = undefined) => {
+const useToolsConvert = async (pathFile, tool) => {
     const parsedTool = parseInt(tool);
     const resource = path.extname(pathFile).slice(1);
     if(parsedTool === 0 || parsedTool === 1 || parsedTool === 2 || parsedTool === 6) {
@@ -23,7 +23,7 @@ const useToolsConvert = async (pathFile, tool, resizeImage = undefined) => {
         return result;
     }
     else if(parsedTool === 7) {
-        const result = await convertImage(pathFile, resizeImage, "png");
+        const result = await convertImage(pathFile, "png");
         return result;
     }
     else if(parsedTool === 8) {
