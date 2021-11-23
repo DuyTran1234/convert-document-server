@@ -6,9 +6,9 @@ const { v4: uuidv4 } = require('uuid');
 const convertImage = async (inputFilePath, target) => {
     // const width = Number.parseInt(resizeImage["width"]);
     // const height = Number.parseInt(resizeImage["height"]);
-    if(isNaN(width) || isNaN(height)) {
-        return new Error('ParseInt resize image failed');
-    }
+    // if(isNaN(width) || isNaN(height)) {
+    //     return new Error('ParseInt resize image failed');
+    // }
     const outputFileName = `${uuidv4() + Date.now()}.${target}`;
     const outputFilePath = path.resolve(process.cwd(), "converted", `${outputFileName}`);
 
@@ -21,7 +21,7 @@ const convertImage = async (inputFilePath, target) => {
     outStream.on('close', () => {
         console.log('Successfully write file');
     });
-    let transform = sharp().on('info', (fileInfo) => {
+    let transform = sharp().resize().on('info', (fileInfo) => {
         console.log("Resizing done, file not saved");
     });
     const convert = await inStream.pipe(transform).pipe(outStream);
